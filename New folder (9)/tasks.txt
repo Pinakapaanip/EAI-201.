@@ -1,0 +1,50 @@
+📍 Step 1:
+🎯 Next goal: Open Google and search for free Data Science courses.
+☝️ Decided next action: go_to_url(url="https://www.google.com", new_tab=False)
+🦾 Navigated to https://www.google.com
+
+📍 Step 2:
+🎯 Next goal: Search for "Top free Data Science courses online with duration".
+✌️ Decided next 2 multi-actions:
+
+input_text(#12, text="Top free Data Science courses online with duration", clear_existing=True)
+
+send_keys(keys=Enter)
+🦾 Typed and searched successfully
+
+📍 Step 3:
+🎯 Next goal: Open the first relevant course link in a new tab to note course name and duration.
+☝️ Decided next action: click_element_by_index(#20, while_holding_ctrl=True)
+🦾 Clicked element and opened new tab
+
+📍 Step 4:
+🎯 Next goal: Switch to the new tab and capture course name and duration.
+☝️ Decided next action: switch_tab(tab_id=5A3F)
+🦾 Switched to Tab with ID 5A3F and captured course info
+
+📍 Step 5:
+🎯 Next goal: Return to Google results to open the next course link.
+☝️ Decided next action: switch_tab(tab_id=808A)
+🦾 Switched back to Google results tab
+
+📍 Step 6-10:
+🎯 Next goal: Open next 4 course links (#25, #28, #32, #35) in new tabs, switch to each tab, and capture course name and duration.
+🦾 Clicked each link while holding Ctrl → switched to each tab → captured info
+
+📍 Step 11:
+🎯 Next goal: Compile the final list of 5 free Data Science courses with durations.
+☝️ Decided next action: done(text="Here are 5 free Data Science courses online along with durations:\n1. ...", success=True)
+
+📄 Result:
+
+IBM Data Science Professional Certificate – 10 weeks
+
+Data Science Fundamentals (edX) – 8 weeks
+
+Google Data Analytics Certificate – 12 weeks
+
+Introduction to Data Science (Coursera) – 10 weeks
+
+Data Science Basics (Udacity) – 6 weeks
+
+✅ Task completed successfully
