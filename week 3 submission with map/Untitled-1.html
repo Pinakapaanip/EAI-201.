@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chanakya University Bot</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    body { margin: 0; display: flex; height: 100vh; }
+    #map { flex: 3; }
+    #chatbox {
+      flex: 1;
+      border-left: 2px solid #ccc;
+      display: flex;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+    }
+    #messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+    #input {
+      display: flex;
+    }
+    #input input {
+      flex: 1;
+      padding: 10px;
+    }
+    #input button {
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="chatbox">
+    <div id="messages"></div>
+    <div id="input">
+      <input id="userInput" type="text" placeholder="Ask something..."/>
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // === Initialize Map ===
+    var map = L.map('map', {
+      crs: L.CRS.Simple, // for image maps
+      minZoom: -1
+    });
+
+    // Replace with your campus map image
+    var bounds = [[0,0], [1000,1000]];
+    var image = L.imageOverlay('campus_map.jpg', bounds).addTo(map);
+    map.fitBounds(bounds);
+
+    // Example markers
+    var locations = {
+      "admin block": L.marker([200, 300]).bindPopup("Admin Block"),
+      "food court": L.marker([500, 600]).bindPopup("Food Court"),
+      "hostel": L.marker([800, 400]).bindPopup("Hostel")
+    };
+
+    for (let loc in locations) {
+      locations[loc].addTo(map);
+    }
+
+    // === Simple Chatbot Logic ===
+    function sendMessage() {
+      let input = document.getElementById("userInput").value.toLowerCase();
+      let messages = document.getElementById("messages");
+      
+      messages.innerHTML += "<div><b>You:</b> " + input + "</div>";
+
+      let response = "Sorry, I didn't understand.";
+      if (input.includes("where is")) {
+        let place = input.replace("where is", "").trim();
+        if (locations[place]) {
+          response = "Here is " + place;
+          locations[place].openPopup(); // show location
+          map.setView(locations[place].getLatLng(), 1);
+        } else {
+          response = "I don't know that place.";
+        }
+      }
+
+      messages.innerHTML += "<div><b>Bot:</b> " + response + "</div>";
+      document.getElementById("userInput").value = "";
+      messages.scrollTop = messages.scrollHeight;
+    }
+  </script>
+</body>
+</html>
