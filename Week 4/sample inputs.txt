@@ -1,0 +1,56 @@
+Ask About Locations:
+
+Where is admin block?  
+Where is the food court?  
+Where is temple?  
+
+
+Get Directions (with map):
+
+Path from hostel to food court  
+Directions from mini mart to engineering block  
+
+
+Format: Path from [place] to [place]
+
+List All Campus Locations:
+
+What locations are there?  
+
+Fee Structure:
+
+What are the fees?  
+BTech fees  
+MTech fees  
+MBA fees  
+
+
+Hostel Information:
+
+Hostels  
+Where are hostels?  
+Tell me about hostels  
+
+
+Admission / Placement Info:
+
+Admissions  
+How to apply?  
+Placement cell  
+Placements  
+
+
+Sports Facilities:
+
+Sports  
+Where is basketball court?  
+Is there football ground?  
+
+
+Small Talk:
+
+Hi  
+Hello  
+Thanks  
+Bye  
+Goodbye  
