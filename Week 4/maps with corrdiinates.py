@@ -14,61 +14,47 @@ from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 campus_map = {
-    "main entrance": ["admin block", "food court", "mini mart", "temple"],
-    "admin block": ["main entrance", "faculty block", "engineering block", "basketball court", "canteen"],
-    "food court": ["main entrance", "hostel", "mini mart"],
-    "hostel": ["food court", "river", "football court"],
-    "guest house": ["main entrance", "temple"],
-    "faculty block": ["admin block", "engineering block", "basketball court"],
-    "basketball court": ["faculty block", "admin block", "football court"],
-    "football court": ["basketball court", "hostel", "engineering block"],
-    "engineering block": ["faculty block", "admin block", "football court"],
-    "mini mart": ["main entrance", "food court"],
-    "temple": ["main entrance", "guest house"],
-    "river": ["hostel", "football court"],
-    "exit": ["main entrance"],
-    "canteen": ["admin block"]
+    "entrance": ["admin block"],
+    "admin block": ["entrance", "food court", "temple", "guest house"],
+    "food court": ["admin block", "hostel", "cricket ground"],
+    "temple": ["admin block", "guest house"],
+    "guest house": ["admin block", "temple"],
+    "hostel": ["food court", "exit"],
+    "cricket ground": ["food court", "basketball court", "river"],
+    "basketball court": ["cricket ground"],
+    "river": ["cricket ground"],
+    "exit": ["hostel"]
 }
 
 departments = {
-    "admin block": "Admin Block is near the Main Entrance.",
-    "food court": "Food Court is located behind the Engineering Block.",
-    "hostel": "Student Hostels, Blocks H & H2 for girls.",
-    "guest house": "Guest House near the Temple.",
-    "faculty block": "Faculty Offices, Block F.",
-    "basketball court": "Basketball Court behind the Food Court.",
-    "football court": "Football Ground near Hostels.",
-    "engineering block": "Engineering Block, Block E.",
-    "main entrance": "Main Entrance of Chanakya University.",
-    "mini mart": "Mini Mart near the Hostel.",
-    "temple": "Campus Temple near Guest House.",
-    "river": "Campus River bordering the Hostels.",
-    "exit": "Exit from Main Entrance.",
-    "canteen": "Canteen is in the Admin Block."
+    "entrance": "Main Entrance of the University.",
+    "admin block": "Admin Block is near the main entrance.",
+    "food court": "Food Court is located near the center of campus.",
+    "temple": "Temple located near Guest House.",
+    "guest house": "Guest House for visitors, near Admin Block.",
+    "hostel": "Student Hostels are located to the right side of the food court.",
+    "cricket ground": "Cricket Ground at the north end of campus.",
+    "basketball court": "Basketball Court beside Cricket Ground.",
+    "river": "River near the cricket ground.",
+    "exit": "Exit road leading outside campus."
 }
 
 faqs = {
-    "admissions": "You can apply online via the official website: www.chanakyauniv.edu/admissions.",
+    "admissions": "Apply online via the official website: www.chanakyauniv.edu/admissions",
     "fees": "Fee details are available online: https://www.chanakyauniv.edu/fees-portal",
-    "btech fees": "BTech fees are available online here: https://www.chanakyauniv.edu/fees-portal#btech",
-    "mtech fees": "MTech fees are available online here: https://www.chanakyauniv.edu/fees-portal#mtech",
-    "mba fees": "MBA fees are available online here: https://www.chanakyauniv.edu/fees-portal#mba",
-    "hostels": "Hostels are located near the main gate. Boys Hostel - Block H, Girls Hostel - Block H2.",
-    "placement": "Placement cell is in Block A, 1st floor. Contact: placement@chanakyauniv.edu.",
-    "food court": "Food Court is located near the Main Entrance, serving breakfast, lunch, and snacks.",
-    "sports": "Basketball and Football courts are located behind the Food Court."
+    "hostels": "Hostels are located near the right side of the campus near the Food Court.",
+    "sports": "Cricket and Basketball grounds are located near the north end of campus."
 }
 
 class ChatBotBackend:
     def __init__(self):
         self.conn, self.cursor = self.init_db()
-        self.greetings = ["hi", "hello", "hey", "hola", "namaste", "konichiwa"]
+        self.greetings = ["hi", "hello", "hey", "hola", "namaste"]
         self.greeting_responses = [
             "Hello! Welcome to Chanakya University!",
             "Hi there! How can I help you today?",
             "Hey! Need any campus info?",
-            "Greetings! How can I assist you?",
-            "Namaste! Welcome!"
+            "Greetings! How can I assist you?"
         ]
         self.farewells = ["bye", "goodbye", "see you"]
         self.farewell_responses = [
@@ -139,14 +125,7 @@ class ChatBotBackend:
             locs = ", ".join([loc.title() for loc in departments.keys()])
             return "Chanakya University has the following locations: " + locs
         elif "fees" in user_input:
-            if "btech" in user_input:
-                return faqs.get("btech fees", "Fee information not available.")
-            elif "mtech" in user_input:
-                return faqs.get("mtech fees", "Fee information not available.")
-            elif "mba" in user_input:
-                return faqs.get("mba fees", "Fee information not available.")
-            else:
-                return faqs.get("fees", "Fee information not available.")
+            return faqs.get("fees", "Fee information not available.")
         else:
             corrected_input = self.autocorrect(user_input)
             if corrected_input in departments:
@@ -166,32 +145,34 @@ class MapWindow(QWidget):
         self.setLayout(layout)
         self.webview = QWebEngineView()
         layout.addWidget(self.webview)
+
         coordinates = {
-            "main entrance": [13.22472, 77.75898],
-            "admin block": [13.22485, 77.75935],
-            "food court": [13.22479, 77.75931],
-            "hostel": [13.22442, 77.75980],
-            "guest house": [13.22455, 77.75870],
-            "faculty block": [13.22492, 77.75920],
-            "basketball court": [13.22450, 77.75995],
-            "football court": [13.22433, 77.76010],
-            "engineering block": [13.22495, 77.75945],
-            "mini mart": [13.22460, 77.75960],
-            "temple": [13.22450, 77.75880],
-            "river": [13.22420, 77.76030],
-            "exit": [13.22465, 77.75850],
-            "canteen": [13.22488, 77.75928]
+            "entrance": [13.22385, 77.75845],
+            "admin block": [13.22420, 77.75885],
+            "food court": [13.22450, 77.75905],
+            "temple": [13.22430, 77.75925],
+            "guest house": [13.22410, 77.75910],
+            "hostel": [13.22480, 77.75935],
+            "cricket ground": [13.22520, 77.75985],
+            "basketball court": [13.22510, 77.75970],
+            "river": [13.22490, 77.76025],
+            "exit": [13.22545, 77.76015]
         }
+
         markers_js = [f"['{name.title()}', {lat}, {lng}]" for name, (lat, lng) in coordinates.items()]
         poly_coords = [f"[{coordinates[node][0]}, {coordinates[node][1]}]" for node in path_nodes if node in coordinates]
+
         html = f"""
         <!DOCTYPE html>
-        <html><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Campus Map</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+        <html><head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Campus Map</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
         <style>html,body,#map {{height:100%; margin:0; padding:0}}</style></head>
         <body><div id="map"></div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
-        var map = L.map('map').setView([{coordinates['main entrance'][0]}, {coordinates['main entrance'][1]}], 18);
+        var map = L.map('map').setView([{coordinates['admin block'][0]}, {coordinates['admin block'][1]}], 18);
         L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{ maxZoom: 20 }}).addTo(map);
         var markers = [{','.join(markers_js)}];
         for (var i=0;i<markers.length;i++){{
@@ -205,6 +186,7 @@ class MapWindow(QWidget):
         }}
         </script></body></html>
         """
+
         tmp = tempfile.NamedTemporaryFile(delete=False, suffix='.html')
         tmp.write(html.encode('utf-8'))
         tmp.close()
