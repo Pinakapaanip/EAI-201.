@@ -1,0 +1,14 @@
+[
+    {
+        "animal_name": "Lion",
+        "conversation_sataus": "Endagered",
+        "habitas": "Savanna",
+        "diett": "carnvorous"
+    },
+    {
+        "animal_name": "Elephant",
+        "conversation_status": "Vulnerble",
+        "habitat": "Forest",
+        "diet": "herbavor"
+    }
+]
